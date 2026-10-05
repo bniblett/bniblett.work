@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Byron Niblett — Full-Stack Web Developer</title>
+<meta name="description" content="Byron Niblett — full-stack web developer building web applications, APIs and the infrastructure underneath.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+  // This direction defaults to dark unless the visitor chose light
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('theme'); } catch (e) {}
+    document.documentElement.dataset.theme = t || 'dark';
+  })();
+</script>
+<style>
+  :root {
+    --bg: #f7f8fa;
+    --panel: #ffffff;
+    --text: #0f172a;
+    --muted: #5b6474;
+    --faint: #94a3b8;
+    --line: #e2e8f0;
+    --accent: #0d9488;
+    --accent-bg: rgba(13,148,136,.1);
+    --sans: 'IBM Plex Sans', system-ui, sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+  [data-theme="dark"] {
+    --bg: #0c1220;
+    --panel: #111a2c;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --faint: #5b6b85;
+    --line: #1e293b;
+    --accent: #2dd4bf;
+    --accent-bg: rgba(45,212,191,.1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--muted); font: 16px/1.65 var(--sans); transition: background .25s, color .25s; }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  .layout { max-width: 1180px; margin: 0 auto; padding: 0 48px; display: grid; grid-template-columns: 1fr 1.2fr; gap: 64px; }
+
+  /* Sidebar */
+  aside { position: sticky; top: 0; height: 100vh; padding: 64px 0 48px; display: flex; flex-direction: column; justify-content: space-between; }
+  .avatar {
+    position: relative; width: 112px; height: 112px; border-radius: 50%;
+    margin-bottom: 28px; overflow: hidden;
+    background: linear-gradient(135deg, var(--panel), var(--line));
+    border: 2px solid var(--line);
+    box-shadow: 0 0 0 5px var(--bg), 0 0 0 6px var(--accent);
+    display: grid; place-items: center;
+  }
+  .avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+  .avatar .initials { font-family: var(--mono); font-size: 26px; font-weight: 500; color: var(--faint); letter-spacing: .05em; }
+  aside h1 { color: var(--text); font-size: 46px; line-height: 1.1; font-weight: 600; letter-spacing: -.02em; }
+  .role { color: var(--text); font-size: 20px; font-weight: 500; margin-top: 10px; }
+  .tagline { margin-top: 14px; max-width: 340px; }
+  .side-nav { margin-top: 44px; display: flex; flex-direction: column; gap: 14px; }
+  .side-nav a { display: flex; align-items: center; gap: 14px; font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); width: fit-content; }
+  .side-nav a::before { content: ''; height: 1px; width: 32px; background: var(--faint); transition: width .2s, background .2s; }
+  .side-nav a:hover, .side-nav a.active { color: var(--text); }
+  .side-nav a:hover::before, .side-nav a.active::before { width: 64px; background: var(--text); }
+
+  .side-foot { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .side-foot a.icon { font-family: var(--mono); font-size: 13px; }
+  .side-foot a.icon:hover { color: var(--accent); }
+  .toggle { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 12px; color: var(--muted); background: var(--panel); border: 1px solid var(--line); padding: 7px 12px; border-radius: 8px; cursor: pointer; }
+  .toggle:hover { color: var(--text); }
+  .toggle .knob { width: 28px; height: 16px; border-radius: 99px; background: var(--line); position: relative; }
+  .toggle .knob::after { content: ''; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); transition: transform .2s; }
+  [data-theme="dark"] .toggle .knob::after { transform: translateX(12px); }
+
+  /* Content */
+  main { padding: 88px 0 80px; }
+  section { margin-bottom: 96px; scroll-margin-top: 48px; }
+  .sec-title { display: none; color: var(--text); font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 24px; }
+  section > p + p { margin-top: 14px; }
+  strong { color: var(--text); font-weight: 500; }
+
+  /* Experience cards */
+  .item { display: grid; grid-template-columns: 120px 1fr; gap: 20px; padding: 20px; margin: 0 -20px 8px; border-radius: 10px; border: 1px solid transparent; transition: background .2s, border-color .2s; }
+  .item:hover { background: var(--panel); border-color: var(--line); }
+  .item .when { font-family: var(--mono); font-size: 12px; color: var(--faint); padding-top: 4px; text-transform: uppercase; }
+  .item h3 { color: var(--text); font-size: 16px; font-weight: 500; line-height: 1.4; }
+  .item:hover h3 { color: var(--accent); }
+  .item p { font-size: 14px; margin-top: 8px; }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .pills span { font-family: var(--mono); font-size: 12px; color: var(--accent); background: var(--accent-bg); padding: 3px 10px; border-radius: 99px; }
+  .thumb { position: relative; overflow: hidden; aspect-ratio: 16/10; border-radius: 6px; border: 1px solid var(--line); background: linear-gradient(135deg, var(--panel), var(--line)); display: grid; place-items: center; font-family: var(--mono); font-size: 10px; color: var(--faint); margin-top: 4px; }
+
+  .thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+  .more { display: inline-flex; gap: 8px; margin-top: 20px; color: var(--text); font-weight: 500; border-bottom: 1px solid var(--accent); padding-bottom: 2px; }
+  .more:hover { color: var(--accent); }
+
+  .skills { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin-top: 28px; }
+  .skills div { background: var(--bg); padding: 18px 20px; }
+  .skills h4 { color: var(--text); font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+  .skills p { font-size: 13px; font-family: var(--mono); }
+
+  .contact-box { border: 1px solid var(--line); background: var(--panel); border-radius: 12px; padding: 32px; }
+  .contact-box h3 { color: var(--text); font-size: 24px; font-weight: 500; margin-bottom: 10px; }
+  .contact-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+  .btn { padding: 11px 18px; border-radius: 8px; font-size: 14px; font-weight: 500; border: 1px solid var(--accent); color: var(--accent); font-family: var(--mono); }
+  .btn.fill { background: var(--accent); color: var(--bg); }
+  .btn:hover { opacity: .85; }
+
+  footer { font-size: 13px; color: var(--faint); max-width: 440px; }
+
+  @media (max-width: 960px) {
+    .layout { grid-template-columns: 1fr; gap: 0; padding: 0 24px; }
+    aside { position: static; height: auto; padding: 64px 0 24px; }
+    .side-nav { display: none; }
+    .side-foot { margin-top: 28px; }
+    main { padding-top: 24px; }
+    .sec-title { display: block; position: sticky; top: 0; background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(6px); padding: 14px 0; margin: 0 -24px 16px; padding-left: 24px; }
+  }
+  @media (max-width: 560px) {
+    aside h1 { font-size: 36px; }
+    .item { grid-template-columns: 1fr; gap: 6px; }
+    .skills { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside>
+    <div>
+      <div class="avatar">
+        <!-- Drop your photo at images/profile.jpg (square, ~400×400) and it will appear here -->
+        <img src="images/profile.jpg" alt="Photo of Byron Niblett" onerror="this.remove()">
+        <span class="initials">BN</span>
+      </div>
+      <h1>Byron Niblett</h1>
+      <div class="role">Full-Stack Web Developer</div>
+      <p class="tagline">I build and run web applications, APIs and the infrastructure underneath.</p>
+      <nav class="side-nav" id="sideNav">
+        <a href="#about" class="active">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+    <div class="side-foot">
+      <a href="https://github.com/bniblett" target="_blank" rel="noopener" class="icon">GitHub</a>
+      <a href="https://www.linkedin.com/in/byron-niblett" target="_blank" rel="noopener" class="icon">LinkedIn</a>
+      <a href="mailto:bniblett@gmail.com" class="icon">Email</a>
+      <button class="toggle" id="themeToggle" aria-label="Toggle dark mode"><span class="knob"></span><span id="themeLabel">dark</span></button>
+    </div>
+  </aside>
+
+  <main>
+    <section id="about">
+      <div class="sec-title">About</div>
+      <p>For almost <strong>20 years</strong> I've been building for the web, from marketing sites and WordPress builds to custom platforms and APIs. Today I specialize in <strong>Laravel/PHP</strong> back-ends, <strong>REST API</strong> design and modern <strong>JavaScript</strong> front-ends.</p>
+      <p>I bring strong DevOps instincts to every project: <strong>Docker</strong>-based environments, <strong>GitLab CI/CD</strong>, server administration and security hardening, so the things I ship keep running.</p>
+      <p>I'm comfortable owning features end-to-end on Agile teams, and running solo client engagements from first requirements through deployment. Since 2021 I've run my own practice in Oshawa, Ontario, building and supporting web applications for 15 active clients.</p>
+      <div class="skills">
+        <div><h4>Backend</h4><p>PHP · Laravel · CodeIgniter</p></div>
+        <div><h4>CMS</h4><p>WordPress · Filament · Shopify</p></div>
+        <div><h4>APIs</h4><p>REST · OAuth · Webhooks</p></div>
+        <div><h4>Servers</h4><p>Linux · Docker · LiteSpeed</p></div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="sec-title">Experience</div>
+      <div class="item">
+        <div class="when">2021 — Present</div>
+        <div><h3>Owner / Freelance Software Developer · Self-Employed</h3><p>Building and hosting Laravel APIs and WordPress sites for 15 active clients, and maintaining a legacy AngularJS platform.</p><div class="pills"><span>Laravel</span><span>PHP</span><span>Filament</span><span>CodeIgniter</span><span>API</span><span>Python</span><span>AI Integration</span><span>WordPress</span><span>Shopify</span><span>React</span><span>TypeScript</span><span>AngularJS</span><span>Docker</span><span>Linux</span><span>Proxmox</span><span>WHM/cPanel</span><span>Bash Scripting</span><span>Automated Data Backups</span></div></div>
+      </div>
+      <div class="item">
+        <div class="when">2021</div>
+        <div><h3>Software Engineer · Red Thread Innovations</h3><p>Built React components for the Red Thread LMS as part of an Agile Scrum team.</p><div class="pills"><span>React</span><span>TypeScript</span><span>Node.js</span></div></div>
+      </div>
+      <div class="item">
+        <div class="when">2018 — 2021</div>
+        <div><h3>Application Engineer · WE Charity</h3><p>Built donation and trip-registration forms, and integrations that synced data with Salesforce and Shopify.</p><div class="pills"><span>PHP</span><span>React</span><span>TypeScript</span><span>Python</span><span>Ansible</span><span>Salesforce</span><span>Shopify</span><span>Figma</span></div></div>
+      </div>
+      <div class="item">
+        <div class="when">2015 — 2017</div>
+        <div><h3>Web Developer · DIT Canada</h3><p>Built CodeIgniter applications with API and online payment integrations, migrated 50+ sites to new servers, hardened security and modernized legacy client sites.</p><div class="pills"><span>PHP</span><span>Hosting</span><span>CodeIgniter</span><span>API</span><span>Online Payments</span><span>WordPress</span><span>Plesk</span><span>Linux</span></div></div>
+      </div>
+      <div class="item">
+        <div class="when">2013 — 2014</div>
+        <div><h3>Sr. Web Developer · ALT Media</h3><p>Led a team of 3 developers building client websites and e-commerce stores, and managed their hosting.</p><div class="pills"><span>WordPress</span><span>PHP</span><span>MySQL</span><span>Linux</span><span>Web Host Manager (WHM)</span><span>Hosting</span><span>Shopify</span></div></div>
+      </div>
+      <div class="item">
+        <div class="when">2008 — 2012</div>
+        <div><h3>Web Developer · Metroland Media Group</h3><p>Built WordPress themes and plugins for 20+ community news sites, and consolidated 100+ sites from 10 servers down to 2.</p><div class="pills"><span>WordPress</span><span>PHP</span><span>MySQL</span><span>Linux</span><span>Web Host Manager (WHM)</span><span>Hosting</span></div></div>
+      </div>
+      <a href="Byron_Niblett_Resume.pdf" download class="more">Download full résumé (PDF) ↓</a>
+    </section>
+
+    <section id="projects">
+      <div class="sec-title">Projects</div>
+      <a href="https://expressradiant.ca" target="_blank" rel="noopener" class="item"><div class="thumb"><img src="images/express-radiant.webp" width="1200" height="750" alt="Express Radiant website homepage" loading="lazy" onerror="this.remove()">screenshot</div><div><h3>Express Radiant — Redesign ↗</h3><p>A full website redesign for the Canadian distributor of Stelrad steel panel radiators. Built in WordPress with Elementor Pro and ACF-driven product content, on managed hosting I run with LiteSpeed caching.</p><div class="pills"><span>WordPress</span><span>Hosting</span><span>Elementor Pro</span><span>ACF</span><span>LiteSpeed</span></div></div></a>
+      <a href="https://citac-accfc.org/" target="_blank" rel="noopener" class="item"><div class="thumb"><img src="images/citac.webp" width="1200" height="750" alt="CITAC website homepage" loading="lazy" onerror="this.remove()">screenshot</div><div><h3>CITAC — Malware Recovery &amp; Hardening ↗</h3><p>Recovered the Clinician Investigator Trainee Association of Canada's WordPress site after a malware breach. I migrated it off their old host, removed the injected code, brought core, theme and plugins up to date, and locked down file permissions and access so it stays clean.</p><div class="pills"><span>WordPress</span><span>Malware Removal</span><span>Security Hardening</span><span>Site Migration</span><span>Hosting</span><span>Elementor Pro</span></div></div></a>
+      <a href="https://craigscookies.com/" target="_blank" rel="noopener" class="item"><div class="thumb"><img src="images/craigs-cookies.webp" width="1200" height="750" alt="Craig's Cookies homepage with hero video" loading="lazy" onerror="this.remove()">screenshot</div><div><h3>Craig's Cookies — Hero Video ↗</h3><p>Added a full-width hero video to the homepage of this Shopify bakery storefront, with custom mute and play/pause controls. Built into the theme with Liquid, JavaScript and CSS so the layout holds up on everything from phones to wide desktop screens.</p><div class="pills"><span>Shopify</span><span>Liquid</span><span>JavaScript</span><span>CSS</span><span>Responsive Design</span></div></div></a>
+      <a href="https://shop.thecarbonbar.ca" target="_blank" rel="noopener" class="item"><div class="thumb"><img src="images/carbon-bar.webp" width="1200" height="750" alt="Shop The Carbon Bar online store homepage" loading="lazy" onerror="this.remove()">screenshot</div><div><h3>Shop The Carbon Bar — Local Delivery ↗</h3><p>Built a custom local-delivery solution for this online food shop. Customers enter their postal code to see whether delivery is available in their area, and the matching delivery fee is applied automatically at checkout.</p><div class="pills"><span>Shopify</span><span>JavaScript</span><span>Liquid</span><span>Checkout</span><span>Delivery Zones</span></div></div></a>
+      <a href="https://iwastenotsystems.com/#products" target="_blank" rel="noopener" class="item"><div class="thumb"><img src="images/iwastenot.webp" width="1200" height="750" alt="Toro Surplus, a reuse marketplace for CSU Dominguez Hills built on the iWasteNot platform" loading="lazy" onerror="this.remove()">screenshot</div><div><h3>iWasteNot Systems Suite — Marketplaces ↗</h3><p>iWasteNot Systems is a Canadian software company that helps organizations cut waste. I worked on the Laravel REST API and AngularJS front end behind their reuse, recap &amp; student reuse portal marketplaces, where members create accounts and list surplus items for others to claim instead of sending them to the landfill.</p><div class="pills"><span>Laravel</span><span>PHP</span><span>REST API</span><span>AngularJS</span><span>MySQL</span></div></div></a>
+      <a href="https://www.we.org" target="_blank" rel="noopener" class="item"><div class="thumb"><img src="images/we-charity.webp" width="1200" height="750" alt="WE Charity website homepage" loading="lazy" onerror="this.remove()">screenshot</div><div><h3>WE Charity — Website Rebuild ↗</h3><p>For 25 years, WE Charity has supported youth and communities worldwide through programs like WE Schools and WE Villages. I was on the team that helped rebuild their website in React and TypeScript, turning Figma designs into reusable components.</p><div class="pills"><span>React</span><span>TypeScript</span><span>Figma</span></div></div></a>
+    </section>
+
+    <section id="contact">
+      <div class="sec-title">Contact</div>
+      <div class="contact-box">
+        <h3>Let's build something.</h3>
+        <p>I'm open to freelance projects, contract roles and consulting. My inbox is always open.</p>
+        <div class="contact-row">
+          <a href="mailto:bniblett@gmail.com" class="btn fill">bniblett@gmail.com</a>
+          <a href="Byron_Niblett_Resume.pdf" download class="btn">Résumé ↓</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>Designed &amp; built by Byron Niblett. Plain HTML &amp; CSS, hosted on GitHub Pages.</footer>
+  </main>
+</div>
+
+<script>
+  // Theme toggle
+  var label = document.getElementById('themeLabel');
+  function syncLabel() { label.textContent = document.documentElement.dataset.theme; }
+  syncLabel();
+  document.getElementById('themeToggle').addEventListener('click', function () {
+    var r = document.documentElement;
+    var t = r.dataset.theme === 'dark' ? 'light' : 'dark';
+    r.dataset.theme = t;
+    try { localStorage.setItem('theme', t); } catch (e) {}
+    syncLabel();
+  });
+
+  // Highlight the active section in the sidebar nav
+  var links = document.querySelectorAll('#sideNav a');
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        links.forEach(function (l) { l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id); });
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  document.querySelectorAll('main section').forEach(function (s) { obs.observe(s); });
+</script>
+</body>
+</html>
